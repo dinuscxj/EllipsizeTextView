@@ -1,5 +1,5 @@
 ## EllipsizeTextView
---
+
 The EllipsizeTextView offers a lot of flexibility when it comes to causing 
 words in the text that are longer than the view is wide to be omitted 
 instead of broken in the middle. 
@@ -18,6 +18,7 @@ the content, style, and index(in the reverse order) of the ellipsis.
 ![](https://raw.githubusercontent.com/dinuscxj/EllipsizeTextView/master/Preview/EllipsizeTextView.gif?width=300)
 
 ## Installation
+
 Add the following dependency to your build.gradle file:
 ```gradle
     dependencies {
@@ -26,7 +27,7 @@ Add the following dependency to your build.gradle file:
 ```
 
 ## Usage
---
+
 You can specify the attributes from a layout XML like:
 ```xml
     <com.dinuscxj.ellipsize.EllipsizeTextView
@@ -48,7 +49,6 @@ Or from code like:
 ```
 
 ## License
---
 
     Copyright 2015-2019 dinus
 
