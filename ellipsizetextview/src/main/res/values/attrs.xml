@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EllipsizeTextView">
+        <attr name="ellipsize_text" format="string|reference"/>
+        <attr name="ellipsize_index" format="integer|reference"/>
+    </declare-styleable>
+</resources>
