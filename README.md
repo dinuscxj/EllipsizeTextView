@@ -50,8 +50,8 @@ Or from code like:
 ```
 
 ### Auto Mode
-the diff from Normal Mode is that you should set the attribute 'android:layout_height' 
-to a accurate value and the attribute 'android:maxLines' is optional.
+the diff from Normal Mode is that you should set the attribute `android:layout_height` 
+to a accurate value and the attribute `android:maxLines` is optional.
    
 ```xml
     <com.dinuscxj.ellipsize.EllipsizeTextView
