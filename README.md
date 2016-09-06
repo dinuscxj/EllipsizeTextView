@@ -22,12 +22,13 @@ the content, style, and index(in the reverse order) of the ellipsis.
 Add the following dependency to your build.gradle file:
 ```gradle
     dependencies {
-        compile 'com.dinuscxj:ellipsizetextview:1.0.0'
+        compile 'com.dinuscxj:ellipsizetextview:1.0.1'
     }
 ```
 
 ## Usage
 
+### Normal Mode 
 You can specify the attributes from a layout XML like:
 ```xml
     <com.dinuscxj.ellipsize.EllipsizeTextView
@@ -43,11 +44,34 @@ You can specify the attributes from a layout XML like:
 Or from code like:
 
 ```java
-        mEllipsizeText.setMaxLines(2);
-        mEllipsizeText.setEllipsizeText(ellipsizeText, 8);
-        mEllipsizeText.setText(R.string.long_text);
+    mEllipsizeText.setMaxLines(2);
+    mEllipsizeText.setEllipsizeText(ellipsizeText, 8);
+    mEllipsizeText.setText(R.string.long_text);
 ```
 
+### Auto Mode
+the diff from Normal Mode is that you should set the attribute 'android:layout_height' 
+to a accurate value and the attribute 'android:maxLines' is optional.
+   
+```xml
+    <com.dinuscxj.ellipsize.EllipsizeTextView
+        android:id="@+id/tv_ellipsize3"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        app:ellipsize_index="8"
+        app:ellipsize_text="..." />
+```
+
+Or from code like:
+
+```java
+    mEllipsizeText.getLayoutParams().height = 50dp;
+    mEllipsizeText.setEllipsizeText(ellipsizeText, 8);
+    mEllipsizeText.setText(R.string.long_text);
+```
+ 
 ## License
 
     Copyright 2015-2019 dinus
