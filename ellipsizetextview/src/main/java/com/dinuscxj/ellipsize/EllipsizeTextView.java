@@ -48,11 +48,18 @@ public class EllipsizeTextView extends TextView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         final Layout layout = getLayout();
         if (layout != null) {
-            final int lineCount = layout.getLineCount();
-            if (lineCount > mMaxLines && mMaxLines > 0) {
+            if (isExceedMaxLine(layout) || isOutOfBounds(layout)) {
                 adjustEllipsizeEndText(layout);
             }
         }
+    }
+
+    private boolean isExceedMaxLine(Layout layout) {
+        return layout.getLineCount() > mMaxLines && mMaxLines > 0;
+    }
+
+    private boolean isOutOfBounds(Layout layout) {
+        return layout.getHeight() > getMeasuredHeight() - getPaddingBottom() - getPaddingTop();
     }
 
     private void adjustEllipsizeEndText(Layout layout) {
@@ -61,8 +68,8 @@ public class EllipsizeTextView extends TextView {
                 originText.length() - mEllipsizeIndex, originText.length());
 
         final int width = layout.getWidth() - getPaddingLeft() - getPaddingRight();
-        final int lastLineWidth = (int) layout.getLineWidth(mMaxLines - 1);
-        final int mLastCharacterIndex = layout.getLineEnd(mMaxLines - 1);
+        final int lastLineWidth = (int) layout.getLineWidth(layout.getLineCount() - 2);
+        final int mLastCharacterIndex = layout.getLineEnd(layout.getLineCount() - 2);
 
         final int suffixWidth = (int) (Layout.getDesiredWidth(mEllipsizeText, getPaint()) +
                 Layout.getDesiredWidth(restSuffixText, getPaint())) + 1;

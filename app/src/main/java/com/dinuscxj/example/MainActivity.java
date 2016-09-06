@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private EllipsizeTextView mTvEllipsize4;
     private EllipsizeTextView mTvEllipsize5;
     private EllipsizeTextView mTvEllipsize6;
+    private EllipsizeTextView mTvEllipsize7;
 
     private EditText mEtInput;
 
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         mTvEllipsize3 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize3);
         mTvEllipsize4 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize4);
         mTvEllipsize5 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize5);
-        mTvEllipsize6 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize5);
+        mTvEllipsize6 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize6);
+        mTvEllipsize7 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize7);
 
         mEtInput = (EditText) findViewById(R.id.input_text);
 
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setUpTvEllipsize4();
         setUpTvEllipsize5();
         setUpTvEllipsize6();
+        setUpTvEllipsize7();
     }
 
     private void setUpTvEllipsize0() {
@@ -124,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTvEllipsize6() {
+        SpannableString moreText = new SpannableString("...");
+        moreText.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, moreText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        mTvEllipsize6.setEllipsizeText(moreText, 0);
+        mTvEllipsize6.setText(R.string.long_text);
+    }
+
+    private void setUpTvEllipsize7() {
         mEtInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mTvEllipsize6.setText(s);
+                mTvEllipsize7.setText(s);
             }
 
             @Override

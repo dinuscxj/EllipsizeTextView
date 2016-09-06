@@ -59,8 +59,16 @@
         android:layout_marginTop="16dp"
         android:maxLines="2" />
 
+
     <com.dinuscxj.ellipsize.EllipsizeTextView
         android:id="@+id/tv_ellipsize6"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+    <com.dinuscxj.ellipsize.EllipsizeTextView
+        android:id="@+id/tv_ellipsize7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
