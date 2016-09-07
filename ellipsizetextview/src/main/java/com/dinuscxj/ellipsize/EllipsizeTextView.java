@@ -20,6 +20,8 @@ public class EllipsizeTextView extends TextView {
     private int mEllipsizeIndex;
     private int mMaxLines;
 
+    private boolean mIsExactlyMode;
+
     public EllipsizeTextView(Context context) {
         this(context, null);
     }
@@ -46,11 +48,20 @@ public class EllipsizeTextView extends TextView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        mIsExactlyMode = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY;
         final Layout layout = getLayout();
         if (layout != null) {
             if (isExceedMaxLine(layout) || isOutOfBounds(layout)) {
                 adjustEllipsizeEndText(layout);
             }
+        }
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+        if (mIsExactlyMode) {
+          requestLayout();
         }
     }
 
@@ -68,8 +79,9 @@ public class EllipsizeTextView extends TextView {
                 originText.length() - mEllipsizeIndex, originText.length());
 
         final int width = layout.getWidth() - getPaddingLeft() - getPaddingRight();
-        final int lastLineWidth = (int) layout.getLineWidth(layout.getLineCount() - 2);
-        final int mLastCharacterIndex = layout.getLineEnd(layout.getLineCount() - 2);
+        final int maxLineCount = computeMaxLineCount(layout);
+        final int lastLineWidth = (int) layout.getLineWidth(maxLineCount - 1);
+        final int mLastCharacterIndex = layout.getLineEnd(maxLineCount - 1);
 
         final int suffixWidth = (int) (Layout.getDesiredWidth(mEllipsizeText, getPaint()) +
                 Layout.getDesiredWidth(restSuffixText, getPaint())) + 1;
@@ -88,6 +100,17 @@ public class EllipsizeTextView extends TextView {
             append(mEllipsizeText);
             append(restSuffixText);
         }
+    }
+
+    private int computeMaxLineCount(Layout layout) {
+      int availableHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
+      for (int i = 0; i < layout.getLineCount(); i++) {
+        if (availableHeight < layout.getLineBottom(i)) {
+          return i;
+        }
+      }
+
+      return layout.getLineCount();
     }
 
     private int computeRemovedEllipsizeEndCharacterCount(final int widthDiff, final CharSequence text) {
