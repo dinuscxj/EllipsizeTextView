@@ -79,7 +79,7 @@ public class EllipsizeTextView extends TextView {
                 originText.length() - mEllipsizeIndex, originText.length());
 
         final int width = layout.getWidth() - getPaddingLeft() - getPaddingRight();
-        final int maxLineCount = computeMaxLineCount(layout);
+        final int maxLineCount = Math.max(1, computeMaxLineCount(layout));
         final int lastLineWidth = (int) layout.getLineWidth(maxLineCount - 1);
         final int mLastCharacterIndex = layout.getLineEnd(maxLineCount - 1);
 
