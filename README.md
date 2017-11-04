@@ -22,7 +22,7 @@ the content, style, and index(in the reverse order) of the ellipsis.
 Add the following dependency to your build.gradle file:
 ```gradle
     dependencies {
-        compile 'com.dinuscxj:ellipsizetextview:1.0.3'
+        compile 'com.dinuscxj:ellipsizetextview:1.0.5'
     }
 ```
 
