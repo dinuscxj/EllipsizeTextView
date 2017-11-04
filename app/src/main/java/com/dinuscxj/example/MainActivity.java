@@ -62,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
         mTvEllipsize0.setEllipsizeText(moreText, 0);
         mTvEllipsize0.setText(R.string.long_text);
+
+        mTvEllipsize0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTvEllipsize0.setMaxLines(mTvEllipsize0.getMaxLines() + 1);
+            }
+        });
     }
 
     private void setUpTvEllipsize1() {

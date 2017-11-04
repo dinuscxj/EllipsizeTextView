@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,10 +18,13 @@ public class EllipsizeTextView extends TextView {
     private static final String DEFAULT_ELLIPSIZE_TEXT = "...";
 
     private CharSequence mEllipsizeText;
+    private CharSequence mOriginText;
+
     private int mEllipsizeIndex;
     private int mMaxLines;
 
     private boolean mIsExactlyMode;
+    private boolean mEnableUpdateOriginText = true;
 
     public EllipsizeTextView(Context context) {
         this(context, null);
@@ -41,27 +45,39 @@ public class EllipsizeTextView extends TextView {
 
     @Override
     public void setMaxLines(int maxLines) {
-        super.setMaxLines(maxLines);
-        this.mMaxLines = maxLines;
+        if (mMaxLines != maxLines) {
+            super.setMaxLines(maxLines);
+            this.mMaxLines = maxLines;
+        }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setText(mOriginText);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mIsExactlyMode = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY;
-        final Layout layout = getLayout();
-        if (layout != null) {
-            if (isExceedMaxLine(layout) || isOutOfBounds(layout)) {
-                adjustEllipsizeEndText(layout);
+        try {
+            mIsExactlyMode = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY;
+            final Layout layout = getLayout();
+            if (layout != null) {
+                if (isExceedMaxLine(layout) || isOutOfBounds(layout)) {
+                    adjustEllipsizeEndText(layout);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
+        if (mEnableUpdateOriginText) {
+            mOriginText = text;
+        }
+
         super.setText(text, type);
+
         if (mIsExactlyMode) {
-          requestLayout();
+            requestLayout();
         }
     }
 
@@ -74,7 +90,7 @@ public class EllipsizeTextView extends TextView {
     }
 
     private void adjustEllipsizeEndText(Layout layout) {
-        final CharSequence originText = getText();
+        final CharSequence originText = mOriginText;
         final CharSequence restSuffixText = originText.subSequence(
                 originText.length() - mEllipsizeIndex, originText.length());
 
@@ -86,6 +102,7 @@ public class EllipsizeTextView extends TextView {
         final int suffixWidth = (int) (Layout.getDesiredWidth(mEllipsizeText, getPaint()) +
                 Layout.getDesiredWidth(restSuffixText, getPaint())) + 1;
 
+        mEnableUpdateOriginText = false;
         if (lastLineWidth + suffixWidth > width) {
             final int widthDiff = lastLineWidth + suffixWidth - width;
 
@@ -100,17 +117,19 @@ public class EllipsizeTextView extends TextView {
             append(mEllipsizeText);
             append(restSuffixText);
         }
+
+        mEnableUpdateOriginText = true;
     }
 
     private int computeMaxLineCount(Layout layout) {
-      int availableHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
-      for (int i = 0; i < layout.getLineCount(); i++) {
-        if (availableHeight < layout.getLineBottom(i)) {
-          return i;
+        int availableHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
+        for (int i = 0; i < layout.getLineCount(); i++) {
+            if (availableHeight < layout.getLineBottom(i)) {
+                return i;
+            }
         }
-      }
 
-      return layout.getLineCount();
+        return layout.getLineCount();
     }
 
     private int computeRemovedEllipsizeEndCharacterCount(final int widthDiff, final CharSequence text) {
@@ -176,7 +195,6 @@ public class EllipsizeTextView extends TextView {
     }
 
     /**
-     *
      * @param ellipsizeText  causes words in the text that are longer than the view is wide
      *                       to be ellipsized by used the text instead of broken in the middle.
      * @param ellipsizeIndex the index of the ellipsizeText will be inserted in the reverse order.
