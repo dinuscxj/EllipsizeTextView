@@ -113,7 +113,7 @@ public class EllipsizeTextView extends TextView {
             append(mEllipsizeText);
             append(restSuffixText);
         } else {
-            setText(originText.subSequence(0, mLastCharacterIndex));
+            setText(originText.subSequence(0, mLastCharacterIndex - 2));
             append(mEllipsizeText);
             append(restSuffixText);
         }
