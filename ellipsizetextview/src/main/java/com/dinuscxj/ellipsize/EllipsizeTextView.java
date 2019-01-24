@@ -7,14 +7,15 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EllipsizeTextView extends TextView {
+import androidx.appcompat.widget.AppCompatTextView;
+
+public class EllipsizeTextView extends AppCompatTextView {
     private static final String DEFAULT_ELLIPSIZE_TEXT = "...";
 
     private CharSequence mEllipsizeText;
@@ -56,7 +57,7 @@ public class EllipsizeTextView extends TextView {
         setText(mOriginText);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         try {
-            mIsExactlyMode = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY;
+            mIsExactlyMode = View.MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY;
             final Layout layout = getLayout();
             if (layout != null) {
                 if (isExceedMaxLine(layout) || isOutOfBounds(layout)) {
@@ -97,7 +98,11 @@ public class EllipsizeTextView extends TextView {
         final int width = layout.getWidth() - getPaddingLeft() - getPaddingRight();
         final int maxLineCount = Math.max(1, computeMaxLineCount(layout));
         final int lastLineWidth = (int) layout.getLineWidth(maxLineCount - 1);
-        final int mLastCharacterIndex = layout.getLineEnd(maxLineCount - 1);
+        int mLastCharacterIndex = layout.getLineEnd(maxLineCount - 1);
+        while (originText.toString().charAt(mLastCharacterIndex-1) == '\n') {
+            // remove any \n that are present, because the read more link will not be shown otherwise
+            mLastCharacterIndex = mLastCharacterIndex - 1;
+        }
 
         final int suffixWidth = (int) (Layout.getDesiredWidth(mEllipsizeText, getPaint()) +
                 Layout.getDesiredWidth(restSuffixText, getPaint())) + 1;
