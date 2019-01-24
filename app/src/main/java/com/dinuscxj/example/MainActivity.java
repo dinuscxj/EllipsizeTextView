@@ -1,7 +1,7 @@
 package com.dinuscxj.example;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTvEllipsize0 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize0);
-        mTvEllipsize1 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize1);
-        mTvEllipsize2 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize2);
-        mTvEllipsize3 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize3);
-        mTvEllipsize4 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize4);
-        mTvEllipsize5 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize5);
-        mTvEllipsize6 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize6);
-        mTvEllipsize7 = (EllipsizeTextView) findViewById(R.id.tv_ellipsize7);
+        mTvEllipsize0 = findViewById(R.id.tv_ellipsize0);
+        mTvEllipsize1 = findViewById(R.id.tv_ellipsize1);
+        mTvEllipsize2 = findViewById(R.id.tv_ellipsize2);
+        mTvEllipsize3 = findViewById(R.id.tv_ellipsize3);
+        mTvEllipsize4 = findViewById(R.id.tv_ellipsize4);
+        mTvEllipsize5 = findViewById(R.id.tv_ellipsize5);
+        mTvEllipsize6 = findViewById(R.id.tv_ellipsize6);
+        mTvEllipsize7 = findViewById(R.id.tv_ellipsize7);
 
-        mEtInput = (EditText) findViewById(R.id.input_text);
+        mEtInput = findViewById(R.id.input_text);
 
         setUpTvEllipsize0();
         setUpTvEllipsize1();
