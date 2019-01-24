@@ -98,7 +98,11 @@ public class EllipsizeTextView extends AppCompatTextView {
         final int width = layout.getWidth() - getPaddingLeft() - getPaddingRight();
         final int maxLineCount = Math.max(1, computeMaxLineCount(layout));
         final int lastLineWidth = (int) layout.getLineWidth(maxLineCount - 1);
-        final int mLastCharacterIndex = layout.getLineEnd(maxLineCount - 1);
+        int mLastCharacterIndex = layout.getLineEnd(maxLineCount - 1);
+        while (originText.toString().charAt(mLastCharacterIndex) == '\n') {
+            // remove any \n that are present, because the read more link will not be shown otherwise
+            mLastCharacterIndex = mLastCharacterIndex - 1;
+        }
 
         final int suffixWidth = (int) (Layout.getDesiredWidth(mEllipsizeText, getPaint()) +
                 Layout.getDesiredWidth(restSuffixText, getPaint())) + 1;
